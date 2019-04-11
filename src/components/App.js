@@ -12,6 +12,10 @@ class App extends React.Component {
     selectedVideo: null
   }
 
+  componentDidMount() {
+    this.onSearchTermSubmit('')
+  }
+
   render() {
     return (
       <div className="ui container" style={{ marginTop: '50px' }}>
@@ -33,7 +37,10 @@ class App extends React.Component {
         q: searchTerm
       }
     })
-    this.setState({ videos: response.data.items })
+    this.setState({
+      videos: response.data.items,
+      selectedVideo: response.data.items[0]
+    })
   }
 
   onVideoSelect = video => {
