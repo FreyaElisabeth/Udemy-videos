@@ -1,18 +1,28 @@
 import React from 'react'
-import SearchBar from './SearchBar'
+
+import './App.css'
 import youtube from '../apis/youtube'
+import SearchBar from './SearchBar'
 import VideoList from './VideoList'
+import VideoDetail from './VideoDetail'
 
 class App extends React.Component {
   state = {
-    videos: []
+    videos: [],
+    selectedVideo: null
   }
 
   render() {
     return (
       <div className="ui container" style={{ marginTop: '50px' }}>
         <SearchBar onFormSubmit={this.onSearchTermSubmit} />
-        <VideoList videos={this.state.videos} />
+        <div className="ui segment all-results">
+          <VideoDetail video={this.state.selectedVideo} />
+          <VideoList
+            videos={this.state.videos}
+            onVideoSelect={this.onVideoSelect}
+          />
+        </div>
       </div>
     )
   }
@@ -24,6 +34,11 @@ class App extends React.Component {
       }
     })
     this.setState({ videos: response.data.items })
+  }
+
+  onVideoSelect = video => {
+    this.setState({ selectedVideo: video })
+    console.log('onVideoSelect', this.state.selectedVideo)
   }
 }
 
